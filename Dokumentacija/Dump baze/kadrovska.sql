@@ -67,52 +67,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `kadrovska`.`Dokument-osoba`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument-osoba` (
-  `id` INT NOT NULL,
-  `Osoba_id` INT NOT NULL,
-  `Dokument_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Osoba_id`, `Dokument_id`),
-  INDEX `fk_Dokument-osoba_Osoba1_idx` (`Osoba_id` ASC),
-  INDEX `fk_Dokument-osoba_Dokument1_idx` (`Dokument_id` ASC),
-  CONSTRAINT `fk_Dokument-osoba_Osoba1`
-    FOREIGN KEY (`Osoba_id`)
-    REFERENCES `kadrovska`.`Osoba` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Dokument-osoba_Dokument1`
-    FOREIGN KEY (`Dokument_id`)
-    REFERENCES `kadrovska`.`Dokument` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `kadrovska`.`Osoba-privilegije`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `kadrovska`.`Osoba-privilegije` (
-  `id` INT NOT NULL,
-  `Privilegije_id` INT NOT NULL,
-  `Osoba_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Privilegije_id`, `Osoba_id`),
-  INDEX `fk_Osoba-privilegije_Privilegije_idx` (`Privilegije_id` ASC),
-  INDEX `fk_Osoba-privilegije_Osoba1_idx` (`Osoba_id` ASC),
-  CONSTRAINT `fk_Osoba-privilegije_Privilegije`
-    FOREIGN KEY (`Privilegije_id`)
-    REFERENCES `kadrovska`.`Privilegije` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Osoba-privilegije_Osoba1`
-    FOREIGN KEY (`Osoba_id`)
-    REFERENCES `kadrovska`.`Osoba` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `kadrovska`.`Dokument-status`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument-status` (
@@ -131,6 +85,39 @@ CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument-status` (
   CONSTRAINT `fk_Dokument-status_Dokument1`
     FOREIGN KEY (`Dokument_id` , `Dokument_TipDokumenta_id`)
     REFERENCES `kadrovska`.`Dokument` (`id` , `TipDokumenta_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kadrovska`.`Dokument-status-osoba-privilegija`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument-status-osoba-privilegija` (
+  `id` INT NOT NULL,
+  `Osoba_id` INT NOT NULL,
+  `Dokument-status_id` INT NOT NULL,
+  `Dokument-status_Status_id` INT NOT NULL,
+  `Dokument-status_Dokument_id` INT NOT NULL,
+  `Dokument-status_Dokument_TipDokumenta_id` INT NOT NULL,
+  `Privilegije_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Osoba_id`, `Dokument-status_id`, `Dokument-status_Status_id`, `Dokument-status_Dokument_id`, `Dokument-status_Dokument_TipDokumenta_id`, `Privilegije_id`),
+  INDEX `fk_Dokument-osoba_Osoba1_idx` (`Osoba_id` ASC),
+  INDEX `fk_Dokument-status-osoba-privilegija_Dokument-status1_idx` (`Dokument-status_id` ASC, `Dokument-status_Status_id` ASC, `Dokument-status_Dokument_id` ASC, `Dokument-status_Dokument_TipDokumenta_id` ASC),
+  INDEX `fk_Dokument-status-osoba-privilegija_Privilegije1_idx` (`Privilegije_id` ASC),
+  CONSTRAINT `fk_Dokument-osoba_Osoba1`
+    FOREIGN KEY (`Osoba_id`)
+    REFERENCES `kadrovska`.`Osoba` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Dokument-status-osoba-privilegija_Dokument-status1`
+    FOREIGN KEY (`Dokument-status_id` , `Dokument-status_Status_id` , `Dokument-status_Dokument_id` , `Dokument-status_Dokument_TipDokumenta_id`)
+    REFERENCES `kadrovska`.`Dokument-status` (`id` , `Status_id` , `Dokument_id` , `Dokument_TipDokumenta_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Dokument-status-osoba-privilegija_Privilegije1`
+    FOREIGN KEY (`Privilegije_id`)
+    REFERENCES `kadrovska`.`Privilegije` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
