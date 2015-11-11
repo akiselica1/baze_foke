@@ -18,7 +18,7 @@ USE `kadrovska` ;
 -- Table `kadrovska`.`TipDokumenta`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`TipDokumenta` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -27,7 +27,7 @@ ENGINE = InnoDB;
 -- Table `kadrovska`.`Dokument`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `TipDokumenta_id` INT NOT NULL,
   PRIMARY KEY (`id`, `TipDokumenta_id`),
   INDEX `fk_Dokument_TipDokumenta1_idx` (`TipDokumenta_id` ASC),
@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 -- Table `kadrovska`.`Osoba`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Osoba` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -52,7 +52,7 @@ ENGINE = InnoDB;
 -- Table `kadrovska`.`Status`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Status` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -61,7 +61,7 @@ ENGINE = InnoDB;
 -- Table `kadrovska`.`Privilegije`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Privilegije` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -118,6 +118,22 @@ CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument-status-osoba-privilegija` (
   CONSTRAINT `fk_Dokument-status-osoba-privilegija_Privilegije1`
     FOREIGN KEY (`Privilegije_id`)
     REFERENCES `kadrovska`.`Privilegije` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kadrovska`.`Credentials`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `kadrovska`.`Credentials` (
+  `id` INT NOT NULL,
+  `Osoba_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `Osoba_id`),
+  INDEX `fk_Credentials_Osoba1_idx` (`Osoba_id` ASC),
+  CONSTRAINT `fk_Credentials_Osoba1`
+    FOREIGN KEY (`Osoba_id`)
+    REFERENCES `kadrovska`.`Osoba` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
