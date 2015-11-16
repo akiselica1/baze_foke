@@ -1,6 +1,8 @@
 body{
     background-color:#d9edf7;
 }
+
+/*login page*/
 .btn-primary{
     width: 150px;
     margin-left: 33%;
@@ -21,6 +23,24 @@ body{
     margin-left: 24%;
 }
 
+/*profil korisnika*/
+.navbar-brand{
+    width: 200px;
+}
+#brand-slicica{
+    width: 32px;
+    height: 32px;
+    margin-top: -8px;
+    margin-right: 5px;
+    float: left;
+}
+#nav-settings{
+    margin-top: -8px;
+}
+
+.nav{
+    height: 40px;
+}
 @media(max-width:960px){
     body{
         background-color: white;
