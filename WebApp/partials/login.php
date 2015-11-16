@@ -1,15 +1,13 @@
-<div class="container" style="margin-top: 150px;">    
+<div class="container">    
     
-    <div style="margin-left:38%; ">
-        <img alt="etf-logo" src="img/logoi/etf-logo.gif">
-    </div>
+        <img id="etf-logo" alt="etf-logo" src="img/logoi/etf-logo.gif">
     
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+    <div id="loginbox" class="mainbox">                    
         <div class="panel panel-info" >
 
             <div class="panel-heading">
                 <div class="panel-title">Autentifikacija</div>
-                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Zaboravljena lozinka?</a></div>
+                <div style="float:right; font-size: 77%; position: relative; top:-10px"><a href="#">Zaboravljena lozinka?</a></div>
             </div>     
 
             <div style="padding-top:30px" class="panel-body" >
@@ -17,7 +15,7 @@
                     
                 <form id="loginform" class="form-horizontal" role="form">
                             
-                    <div style="margin-bottom: 25px" class="input-group">
+                    <div style="margin-bottom: 15px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="Korisnik">                                        
                     </div>
@@ -27,7 +25,7 @@
                         <input id="login-password" type="password" class="form-control" name="password" placeholder="Lozinka">
                     </div>
 
-                        <div style="margin-top:10px" class="form-group">
+                        <div style="margin-top:30px" class="form-group">
                             <!-- Button -->
 
                             <div class="col-sm-12 controls">
