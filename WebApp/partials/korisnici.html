@@ -1,1 +1,19 @@
-<div> {{ users }} </div>
+<div> 
+	<table>
+		<thead>
+			<tr>
+				<th>Korisnik ID </th>
+				<th>Ime </th>
+				<th>Prezime </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users">
+				<td> {{ user.id }} </td>
+				<td> {{ user.ime }} </td>
+				<td> {{ user.prezime }} </td>
+			</tr>
+		</tbody>
+	</table>
+	{{ user }} 
+</div>

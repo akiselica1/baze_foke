@@ -1,7 +1,9 @@
 body{
     background-color:#d9edf7;
 }
-
+th{
+    width:80px;
+}
 /*login page*/
 .btn-primary{
     width: 150px;
