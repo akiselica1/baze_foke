@@ -67,6 +67,10 @@ th{
     display: inline-block;
     float: right;
 }
+
+.table > thead > tr:first-child{
+    width: 0px;
+} 
 @media(max-width:960px){
     body{
         background-color: white;

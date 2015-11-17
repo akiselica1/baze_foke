@@ -14,3 +14,28 @@
 	    <link rel="stylesheet" href="css/main.css">
 	    <title>ETF - Kadrovska služba</title>
 	</head>
+
+	<body>
+        
+        <?php
+            include 'partials/glavni-panel.php';
+        ?>
+        
+	    <!-- LOAD APP MAIN SCRIPT -->
+	    <script src="app/app.js"></script>
+
+	    <!-- LOAD ANGULAR SERVICES -->
+	    <script src="app/services/userService.js"></script>
+	    <script src="app/services/thesisService.js"></script>
+
+	    <!-- LOAD ANGULAR CONTROLLERS -->
+	    <script src="app/controllers/userController.js"></script>
+	    <script src="app/controllers/thesisController.js"></script>
+
+	    <!-- LOAD ANGULAR ROUTES -->
+	    <script src="app/routes.js"></script>
+
+
+	    <script src="bootstrap/js/bootstrap.js"></script>
+	</body>
+</html>
