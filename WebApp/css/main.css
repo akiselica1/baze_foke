@@ -68,9 +68,14 @@ th{
     float: right;
 }
 
-.table > thead > tr:first-child{
+.table > thead > tr > th{
+    width: 50px;
+}
+
+.table > thead > tr > th:first-child{
     width: 0px;
-} 
+}
+
 @media(max-width:960px){
     body{
         background-color: white;
