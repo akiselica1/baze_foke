@@ -5,6 +5,11 @@ kadrovska.config(function ($routeProvider) {
             controller: "getAllUsersCtrl",
             templateUrl: "partials/korisnici.html"
         })
+        .when('/allThesis',
+        {
+            controller: "getAllThesisCtrl",
+            templateUrl: "partials/zavrsni.html"
+        })
         .otherwise({ redirectTo: "/index.php" });
 }).config(function ($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
