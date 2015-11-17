@@ -23,12 +23,10 @@
                     <li><a href="#">Zahtjevi</a></li>
                     <li><a href="#">Potvrde</a></li>
                     <li><a href="#/allThesis">Završni rad</a></li>
-                    <li><a href="#">Potvrde</a></li>
-                    <li><a href="#">Potvrde</a></li>
+                    <li><a href="#">Odluke</a></li>
+                    <li><a href="#">Uvjerenja</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
+                    <li><a href="#">Ostali dokumenti</a></li>
                   </ul>
                 </li>
               </ul>
@@ -43,11 +41,9 @@
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodatno <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Dodatne opcije</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">Odjavi se</a></li>
                   </ul>
                 </li>
               </ul>
