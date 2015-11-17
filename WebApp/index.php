@@ -22,7 +22,6 @@
 	    <script src="app/routes.js"></script>
 
 
-	    <script src="bootstrap/js/bootstrap.min.js"></script>
 	    <script src="bootstrap/js/bootstrap.js"></script>
 	</body>
 </html>
