@@ -39,7 +39,17 @@ th{
 #nav-settings{
     margin-top: -8px;
 }
-
+#btn-img-send{
+    background-image: url("../img/korisnici/send.png");
+    background-repeat: no-repeat;
+}
+#btn-img-drop{
+    background-image: url("../img/korisnici/drop.png");
+    background-repeat: no-repeat;
+}
+#btn-img-send:hover, #btn-img-drop:hover{
+    background-position: bottom left;
+}
 .nav{
     height: 40px;
 }
@@ -52,7 +62,6 @@ th{
 
 .panel-obj1{
     width: 240px;
-    height: 560px;
     border: solid 1px;
     border-radius: 5px;
     border-color: #C2CCEC;
@@ -75,6 +84,10 @@ th{
 
 .table > thead > tr > th:first-child{
     width: 0px;
+}
+
+.btn-group-vertical{
+    width:inherit;
 }
 
 @media(max-width:960px){

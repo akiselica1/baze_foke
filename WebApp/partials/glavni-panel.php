@@ -54,17 +54,17 @@
         <div class="panel-box">
             <div class="panel-obj1">
                 <div class="btn-group-vertical" role="group" aria-label="...">
-  <button type="button" class="btn btn-default">1</button>
-  <button type="button" class="btn btn-default">2</button>
+  <button type="button"  id="btn-img-send" class="btn btn-default">Odobri dokument</button>
+  <button type="button" id="btn-img-drop" class="btn btn-default">Poništi dokument</button>
 
   <div class="btn-group" role="group">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Dropdown
+      Dodatne opcije
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li><a href="#">Dropdown link</a></li>
-      <li><a href="#">Dropdown link</a></li>
+      <li><a href="#">Dodatna opcija 1</a></li>
+      <li><img alt="" src="" class=""><a href="#">Dodatna opcija 2</a></li>
     </ul>
   </div>
 </div>
@@ -72,6 +72,5 @@
             <div class="panel-obj2">
                 <div ng-view=""></div>
                 
-                <button type="submit" class="btn btn-primary btn-custom">Pošalji</button>
             </div>
         </div>
