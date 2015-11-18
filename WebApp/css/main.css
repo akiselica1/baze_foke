@@ -67,7 +67,8 @@ th{
     display: inline-block;
     float: right;
 }
-
+.btn-custom{
+}
 .table > thead > tr > th{
     width: 50px;
 }
