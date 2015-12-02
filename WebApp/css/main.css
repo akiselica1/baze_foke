@@ -42,6 +42,7 @@ th{
 #btn-img-send{
     background-image: url("../img/korisnici/send.png");
     background-repeat: no-repeat;
+
 }
 #btn-img-drop{
     background-image: url("../img/korisnici/drop.png");
@@ -49,6 +50,7 @@ th{
 }
 #btn-img-send:hover, #btn-img-drop:hover{
     background-position: bottom left;
+    position: relative;
 }
 .nav{
     height: 40px;
