@@ -19,7 +19,14 @@
         
         <?php
             include 'partials/glavni-panel.php';
-        ?>
+        ?> 
+        <div ng-include="'partials/korisnici.html'">
+        	
+        </div>
+
+        <div ng-include="'partials/dokumenti.html'">
+        	
+        </div>
         
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>
@@ -27,10 +34,12 @@
 	    <!-- LOAD ANGULAR SERVICES -->
 	    <script src="app/services/userService.js"></script>
 	    <script src="app/services/thesisService.js"></script>
+	    <script src="app/services/documentService.js"></script>
 
 	    <!-- LOAD ANGULAR CONTROLLERS -->
 	    <script src="app/controllers/userController.js"></script>
 	    <script src="app/controllers/thesisController.js"></script>
+	    <script src="app/controllers/documentController.js"></script>
 
 	    <!-- LOAD ANGULAR ROUTES -->
 	    <script src="app/routes.js"></script>

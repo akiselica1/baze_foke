@@ -15,8 +15,8 @@
 				$kveri = $db->query("SELECT * FROM osoba");
 				foreach($kveri as $osoba){
 					$values[] = array("id" 		=> $osoba['id'],
-									  "ime" 	=> $osoba['ime'],
-									  "prezime" => $osoba['prezime']);
+									  "ime" 	=> $osoba['Ime'],
+									  "prezime" => $osoba['Prezime']);
 				}
 				//$osobe = array("osobe" => $values);
 				//echo json_encode($osobe);

@@ -1,0 +1,21 @@
+<div ng-controller = "getAllDocumentsCtrl"> 
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Naslov</th>
+				<th>Tekst</th>
+				<th>Datum kreiranja</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="doc in documents">
+				<td> {{ doc.id }} </td>
+				<td> {{ doc.naslov }} </td>
+				<td> {{ doc.tekst }} </td>
+				<td> {{ doc.datum | date }} </td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>

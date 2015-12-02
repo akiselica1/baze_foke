@@ -5,6 +5,7 @@ kadrovska.factory('userService', ['$http', 'ngAuthSettings', function ($http, ng
 
     var _getUsers = function () {
         return $http.get(serviceBase + 'action_users.php?action=pokupi-korisnike').then(function (results) {
+        	//alert("bla");
             return results;
         });
     };
