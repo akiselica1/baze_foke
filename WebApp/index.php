@@ -20,7 +20,7 @@
         <?php
             include 'partials/glavni-panel.php';
         ?> 
-        <div ng-view=""></div>
+        
         
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>

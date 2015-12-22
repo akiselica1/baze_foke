@@ -1,5 +1,5 @@
 'use strict'
-kadrovska.controller('getAllThesisCtrl', function ($scope, thesisService) {
+kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
     
     $scope.thesis = [];
     
@@ -10,7 +10,7 @@ kadrovska.controller('getAllThesisCtrl', function ($scope, thesisService) {
     });
 
     $scope.proslijediZavrsne = function(zavrsniRadovi){
-    	console.log(zavrsniRadovi);
+    		console.log(zavrsniRadovi);
     }
 
 });

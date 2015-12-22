@@ -26,12 +26,12 @@
 			case 'promijeni-status-nv':
 				$zavrsni_radovi = "a";
 				$zavrsni_radovi_tmp = file_get_contents('php://input');
-				//echo "TIP: ".gettype($zavrsni_radovi_tmp)."<br>";
-				echo $zavrsni_radovi_tmp;
+				echo "TIP: ".gettype($zavrsni_radovi_tmp)."<br>";
 				$k = json_encode($zavrsni_radovi_tmp);
 				echo json_decode($k);
-				//PARSIRANJE ... 
-
+				
+				
+					
 			break;
 		}
 
