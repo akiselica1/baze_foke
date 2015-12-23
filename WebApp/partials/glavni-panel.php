@@ -30,16 +30,16 @@
           </ul>
         </li>
       </ul>
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left hidden-xs" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Pretraga">
         </div>
         <button type="submit" class="btn btn-default">Traži</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><img id="nav-settings" alt="settings" src="img/korisnici/settings.png"></a></li>
+        <li class="hidden-xs"><a href="#"><img id="nav-settings" alt="settings" src="img/korisnici/settings.png"></a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodatno <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodatno <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Dodatne opcije</a></li>
             <li role="separator" class="divider"></li>
