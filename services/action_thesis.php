@@ -10,7 +10,23 @@
 	else {
 		switch($_GET['action']){
 			case 'pokupi-zavrsne':
-				$values = array();
+
+				$user_data = $db->query("SELECT credentials.username as username,
+	                                            credentials.password as password,
+	                                            CONCAT(osoba.ime, osoba.prezime) as ime,
+	                                            osoba.id as id
+	                                    FROM credentials, osoba 
+	                                    WHERE credentials.osoba_id=osoba.id")->fetch_assoc();
+				if($user_data){
+					echo "uspjelo";
+				}
+				else{
+					echo mysqli_error($db);
+				}
+
+	            echo $user_data['username'];
+
+				/*$values = array();
 				$kveri = $db->query("SELECT zavrsni_rad.id as id, zavrsni_rad.tema as tema, zavrsni_rad.abstract as abstract, 
 											zavrsni_rad.kandidat as kandidat, CONCAT(osoba.ime,	 osoba.prezime) as mentor,
 											osoba.id as mentor_id 
@@ -23,10 +39,10 @@
 									  "tema"     => $zavrsni['tema'],
 									  "mentor"   => $zavrsni['mentor'],
 									  "mentor_id"=> $zavrsni['mentor_id']);
-				}
+				}*/
 				//$osobe = array("osobe" => $values);
 				//echo json_encode($osobe);
-				echo json_encode($values);
+				//echo json_encode($values);
 			break;
 
 			case 'promijeni-status-nv':

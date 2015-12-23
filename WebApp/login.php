@@ -1,5 +1,42 @@
 <!DOCTYPE html>
-<html ng-app="kadrovska">
+
+<?php 
+    require_once('../WebApp/brains/konekcija.php');
+    
+    if(isset($_SESSION['username'])){
+        echo "IMA SESIJA!";
+        
+    }
+
+    else if($_POST){
+        if(isset($_POST['username']) && isset($_POST['password'])){
+            echo "USO!";
+            $username = $_POST['username'];
+            $user_data = $db->query("SELECT credentials.username as username,
+                                            credentials.password as password,
+                                            CONCAT(osoba.ime, osoba.prezime) as ime,
+                                            osoba.id as id,
+                                            osoba.titula as titula
+                                    FROM credentials, osoba 
+                                    WHERE credentials.osoba_id=osoba.id")->fetch_assoc();
+            
+            if($user_data['password']==$_POST['password']){
+                $_SESSION['username'] = $user_data['username'];
+                $_SESSION['id'] = $user_data['id'];
+                $_SESSION['titula'] = $user_data['titula'];
+                header("Location: index.php");
+            }
+            else{
+                header("location: login.php?msg=yes");
+            }
+        }
+    }
+    else{ 
+        echo "AAAAA!"; 
+    }
+?>
+
+<html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
@@ -32,7 +69,7 @@
             <div style="padding-top:30px" class="panel-body" >
                 <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                     
-                <form id="loginform" class="form-horizontal" role="form">
+                <form id="loginform" class="form-horizontal" role="form" method="POST" action="login.php">
                             
                     <div style="margin-bottom: 15px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -44,15 +81,18 @@
                         <input id="login-password" type="password" class="form-control" name="password" placeholder="Lozinka">
                     </div>
 
-                        <div style="margin-top:30px" class="form-group">
-                            <!-- Button -->
-
-                            <div class="col-sm-12 controls">
-                                <a id="btn-login" href="index.php" class="btn btn-primary">Prijava </a>
-                            </div>
-                        </div>
+                    <div style="margin-top:30px" class="form-group">
+                        <input type="submit" value="Prijava">
+                    </div>
                 </form>     
             </div>
+
+            <?php 
+                if(isset($_GET['poruka'])){ 
+                    if($_GET['poruka']=="yes")
+                        echo "GRESKA!";
+                } 
+            ?>
 
         </div>  
     </div>

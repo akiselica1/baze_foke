@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-	if(!isset($_SESSION)){
+	if(!isset($_SESSION['username'])){
 		header ("Location: ../WebApp/login.php");
 	}
 ?>
@@ -22,8 +22,11 @@
 
 	<body>
 
-		<div ng-view></div>
-        
+		<?php include "partials/glavni-panel.php" ?>
+
+		<!--<div id="promijeni">
+			<?php //include "partials/glavni-panel.php" ?>
+        </div> -->
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>
         <script src="js/main.js"></script>

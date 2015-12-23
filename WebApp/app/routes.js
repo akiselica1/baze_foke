@@ -3,7 +3,7 @@ kadrovska.config(function ($routeProvider) {
         .when("/allUsers",
         {
             controller: "getAllUsersCtrl",
-            templateUrl: "partials/korisnici.html"
+            templateUrl: "partials/korisnici.html"  
         })
         .when('/allThesis',
         {
