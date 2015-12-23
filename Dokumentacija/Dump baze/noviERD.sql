@@ -27,18 +27,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`zavrsi_rad`
+-- Table `mydb`.`zavrsni_rad`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`zavrsi_rad` (
+CREATE TABLE IF NOT EXISTS `mydb`.`zavrsni_rad` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tema` VARCHAR(45) NULL,
-  `abstract` VARCHAR(250) NULL,
+  `abstract` VARCHAR(45) NULL,
+  `kandidat` VARCHAR(45) NULL,
+  `status_nivoa` INT NULL,
   `mentor_id` INT NOT NULL,
-  `kandidat_ime_prezime` VARCHAR(45) NULL,
-  `status_nivoa` INT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `mentor_id`),
-  INDEX `fk_zavrsi_rad_osoba_idx` (`mentor_id` ASC),
-  CONSTRAINT `fk_zavrsi_rad_osoba`
+  INDEX `fk_zavrsni_rad_osoba1_idx` (`mentor_id` ASC),
+  CONSTRAINT `fk_zavrsni_rad_osoba1`
     FOREIGN KEY (`mentor_id`)
     REFERENCES `mydb`.`osoba` (`id`)
     ON DELETE NO ACTION
@@ -53,19 +53,37 @@ CREATE TABLE IF NOT EXISTS `mydb`.`status_odobren` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `vrijednost` INT NULL,
   `osoba_id` INT NOT NULL,
-  `zavrsi_rad_id` INT NOT NULL,
-  `zavrsi_rad_mentor_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `osoba_id`, `zavrsi_rad_id`, `zavrsi_rad_mentor_id`),
+  `zavrsni_rad_id` INT NOT NULL,
+  `zavrsni_rad_mentor_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `osoba_id`, `zavrsni_rad_id`, `zavrsni_rad_mentor_id`),
   INDEX `fk_status_odobren_osoba1_idx` (`osoba_id` ASC),
-  INDEX `fk_status_odobren_zavrsi_rad1_idx` (`zavrsi_rad_id` ASC, `zavrsi_rad_mentor_id` ASC),
+  INDEX `fk_status_odobren_zavrsni_rad1_idx` (`zavrsni_rad_id` ASC, `zavrsni_rad_mentor_id` ASC),
   CONSTRAINT `fk_status_odobren_osoba1`
     FOREIGN KEY (`osoba_id`)
     REFERENCES `mydb`.`osoba` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_status_odobren_zavrsi_rad1`
-    FOREIGN KEY (`zavrsi_rad_id` , `zavrsi_rad_mentor_id`)
-    REFERENCES `mydb`.`zavrsi_rad` (`id` , `mentor_id`)
+  CONSTRAINT `fk_status_odobren_zavrsni_rad1`
+    FOREIGN KEY (`zavrsni_rad_id` , `zavrsni_rad_mentor_id`)
+    REFERENCES `mydb`.`zavrsni_rad` (`id` , `mentor_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`credentials`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`credentials` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NULL,
+  `password` VARCHAR(45) NULL,
+  `osoba_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `osoba_id`),
+  INDEX `fk_credentials_osoba1_idx` (`osoba_id` ASC),
+  CONSTRAINT `fk_credentials_osoba1`
+    FOREIGN KEY (`osoba_id`)
+    REFERENCES `mydb`.`osoba` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
