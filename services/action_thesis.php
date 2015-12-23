@@ -19,6 +19,7 @@
 				foreach($kveri as $zavrsni){
 					$values[] = array("id" 		 => $zavrsni['id'],
 									  "kandidat" => $zavrsni['kandidat'],
+									  "abstract" => $zavrsni['abstract'],
 									  "tema"     => $zavrsni['tema'],
 									  "mentor"   => $zavrsni['mentor'],
 									  "mentor_id"=> $zavrsni['mentor_id']);
@@ -48,7 +49,7 @@
 
 					$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
 														  SET status_nivoa=1");
-					
+
 					/*if ($insert_poveznu){
 						echo "uspjelo";
 
