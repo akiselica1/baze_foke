@@ -10,7 +10,7 @@
 	else {
 		switch($_GET['action']){
 			case 'pokupi-dokumente':
-				$values = array();
+				/*$values = array();
 				$kveri = $db->query("SELECT * FROM dokument");
 				foreach($kveri as $dokument){
 					$values[] = array("id" 		=> $dokument['id'],
@@ -20,7 +20,7 @@
 				}
 				//$osobe = array("osobe" => $values);
 				//echo json_encode($osobe);
-				echo json_encode($values);
+				echo json_encode($values);*/
 			break;
 		}
 

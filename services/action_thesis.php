@@ -11,12 +11,17 @@
 		switch($_GET['action']){
 			case 'pokupi-zavrsne':
 				$values = array();
-				$kveri = $db->query("SELECT * FROM zavrsni_radovi");
+				$kveri = $db->query("SELECT zavrsni_rad.id as id, zavrsni_rad.tema as tema, zavrsni_rad.abstract as abstract, 
+											zavrsni_rad.kandidat as kandidat, CONCAT(osoba.ime,	 osoba.prezime) as mentor,
+											osoba.id as mentor_id 
+									 FROM zavrsni_rad, osoba WHERE osoba.id=zavrsni_rad.mentor_id");
+
 				foreach($kveri as $zavrsni){
 					$values[] = array("id" 		 => $zavrsni['id'],
 									  "kandidat" => $zavrsni['kandidat'],
 									  "tema"     => $zavrsni['tema'],
-									  "mentor"   => $zavrsni['mentor']);
+									  "mentor"   => $zavrsni['mentor'],
+									  "mentor_id"=> $zavrsni['mentor_id']);
 				}
 				//$osobe = array("osobe" => $values);
 				//echo json_encode($osobe);
@@ -34,6 +39,27 @@
 					echo "Kandidat: ".$zavrsni_radovi[$i]['kandidat']."<br>";
 					echo "Mentor: ".$zavrsni_radovi[$i]['mentor']."<br>";
 					echo "Tema: ".$zavrsni_radovi[$i]['tema']."<br>";
+					
+					$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, osoba_id, 
+																			  zavrsni_rad_id, zavrsni_rad_mentor_id)
+												  VALUES(0, ".$zavrsni_radovi[$i]['mentor_id'].", 
+												  			".$zavrsni_radovi[$i]['id'].",
+												  			".$zavrsni_radovi[$i]['mentor_id'].")");
+
+					$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
+														  SET status_nivoa=1");
+
+					/*if ($insert_poveznu){
+						echo "uspjelo";
+
+					}
+					else {
+						echo "neuspjelo\r\n";
+						echo mysqli_error($db);
+					}*/
+					
+					
+						
 					//UPDATE STATUSA_NIVOA IZ TABELE ZAVRSNI RAD
 					//POPUNITI VELIKU POVEZNU TABELU
 					//OSOBA, ZA TAJ ZAVRSNI U TOM STATUS_NIVOU IMA TE PRIVILEGIJE
