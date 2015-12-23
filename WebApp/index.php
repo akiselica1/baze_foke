@@ -17,13 +17,15 @@
 
 	<body>
         
-        <?php
-            include 'partials/glavni-panel.php';
-        ?> 
-        
+        <div id="promijeni">
+            <?php
+                include 'partials/login.php';
+            ?> 
+        </div>
         
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>
+        <script src="js/main.js"></script>
 
 	    <!-- LOAD ANGULAR SERVICES -->
 	    <script src="app/services/userService.js"></script>
