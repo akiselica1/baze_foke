@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php 
+	if(!isset($_SESSION)){
+		header ("Location: ../WebApp/partials/login.php");
+	}
+?>
 <html ng-app="kadrovska">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
