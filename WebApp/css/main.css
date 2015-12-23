@@ -52,6 +52,10 @@ th{
     background-position: bottom left;
     position: relative;
 }
+div .btn-proslijedi{
+    float: right;
+    margin-right: 5px;
+}
 .nav{
     height: 40px;
 }
