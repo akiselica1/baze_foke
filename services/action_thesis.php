@@ -48,7 +48,7 @@
 
 					$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
 														  SET status_nivoa=1");
-
+					
 					/*if ($insert_poveznu){
 						echo "uspjelo";
 
