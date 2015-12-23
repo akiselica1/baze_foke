@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<?php 
+<?php
 	if(!isset($_SESSION)){
-		header ("Location: ../WebApp/partials/login.php");
+		header ("Location: ../WebApp/login.php");
 	}
 ?>
 <html ng-app="kadrovska">
@@ -21,12 +21,8 @@
 	</head>
 
 	<body>
-        
-        <div id="promijeni">
-            <?php
-                include 'partials/login.php';
-            ?> 
-        </div>
+
+		<div ng-view></div>
         
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>
