@@ -25,7 +25,6 @@ USE `kadrovska` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`TipDokumenta` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Opis` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -36,9 +35,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Dokument` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `TipDokumenta_id` INT NOT NULL,
-  `Naslov` VARCHAR(45) NULL,
-  `Tekst` LONGTEXT NULL,
-  `Datum kreiranja` DATETIME NULL,
   PRIMARY KEY (`id`, `TipDokumenta_id`),
   INDEX `fk_Dokument_TipDokumenta1_idx` (`TipDokumenta_id` ASC),
   CONSTRAINT `fk_Dokument_TipDokumenta1`
@@ -54,17 +50,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Pozicija` (
   `id` INT NOT NULL,
-  `Opis` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `kadrovska`.`Odsjek`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `kadrovska`.`Odsjek` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `Naziv` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -75,24 +60,11 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Osoba` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Pozicija_id` INT NOT NULL,
-  `Ime` VARCHAR(45) NULL,
-  `Prezime` VARCHAR(45) NULL,
-  `JMBG` VARCHAR(45) NULL,
-  `Adresa` VARCHAR(45) NULL,
-  `Email` VARCHAR(45) NULL,
-  `Telefon` VARCHAR(45) NULL,
-  `Odsjek_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `Pozicija_id`, `Odsjek_id`),
+  PRIMARY KEY (`id`, `Pozicija_id`),
   INDEX `fk_Osoba_Pozicija1_idx` (`Pozicija_id` ASC),
-  INDEX `fk_Osoba_Odsjek1_idx` (`Odsjek_id` ASC),
   CONSTRAINT `fk_Osoba_Pozicija1`
     FOREIGN KEY (`Pozicija_id`)
     REFERENCES `kadrovska`.`Pozicija` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Osoba_Odsjek1`
-    FOREIGN KEY (`Odsjek_id`)
-    REFERENCES `kadrovska`.`Odsjek` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -103,7 +75,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Status` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Opis` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -113,7 +84,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kadrovska`.`Privilegije` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Opis` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -186,6 +156,66 @@ CREATE TABLE IF NOT EXISTS `kadrovska`.`Credentials` (
   CONSTRAINT `fk_Credentials_Osoba1`
     FOREIGN KEY (`Osoba_id`)
     REFERENCES `kadrovska`.`Osoba` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kadrovska`.`Odsjek`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `kadrovska`.`Odsjek` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kadrovska`.`OdsjekProfesor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `kadrovska`.`OdsjekProfesor` (
+  `Osoba_id` INT NOT NULL,
+  `Osoba_Pozicija_id` INT NOT NULL,
+  `Odsjek_id` INT NOT NULL,
+  PRIMARY KEY (`Osoba_id`, `Osoba_Pozicija_id`, `Odsjek_id`),
+  INDEX `fk_table1_Odsjek1_idx` (`Odsjek_id` ASC),
+  CONSTRAINT `fk_table1_Osoba1`
+    FOREIGN KEY (`Osoba_id` , `Osoba_Pozicija_id`)
+    REFERENCES `kadrovska`.`Osoba` (`id` , `Pozicija_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_table1_Odsjek1`
+    FOREIGN KEY (`Odsjek_id`)
+    REFERENCES `kadrovska`.`Odsjek` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kadrovska`.`Zavrsi_radovi`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `kadrovska`.`Zavrsi_radovi` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `kandidat` VARCHAR(45) NULL,
+  `tema` VARCHAR(45) NULL,
+  `mentor` VARCHAR(45) NULL,
+  `abstract` VARCHAR(250) NULL,
+  `mentor_id` INT NOT NULL,
+  `mentor_pozicija_id` INT NOT NULL,
+  `kandidat_id` INT NOT NULL,
+  `kandidat_poozicija_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `mentor_id`, `mentor_pozicija_id`, `kandidat_id`, `kandidat_poozicija_id`),
+  INDEX `fk_Zavrsi_radovi_Osoba1_idx` (`mentor_id` ASC, `mentor_pozicija_id` ASC),
+  INDEX `fk_Zavrsi_radovi_Osoba2_idx` (`kandidat_id` ASC, `kandidat_poozicija_id` ASC),
+  CONSTRAINT `fk_Zavrsi_radovi_Osoba1`
+    FOREIGN KEY (`mentor_id` , `mentor_pozicija_id`)
+    REFERENCES `kadrovska`.`Osoba` (`id` , `Pozicija_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Zavrsi_radovi_Osoba2`
+    FOREIGN KEY (`kandidat_id` , `kandidat_poozicija_id`)
+    REFERENCES `kadrovska`.`Osoba` (`id` , `Pozicija_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

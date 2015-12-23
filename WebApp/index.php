@@ -20,13 +20,7 @@
         <?php
             include 'partials/glavni-panel.php';
         ?> 
-        <div ng-include="'partials/korisnici.html'">
-        	
-        </div>
-
-        <div ng-include="'partials/dokumenti.html'">
-        	
-        </div>
+        
         
 	    <!-- LOAD APP MAIN SCRIPT -->
 	    <script src="app/app.js"></script>
