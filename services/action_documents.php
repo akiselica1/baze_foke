@@ -22,17 +22,6 @@
 				//echo json_encode($osobe);
 				echo json_encode($values);
 			break;
-
-			case 'promijeni-status-nv':
-				$zavrsni_radovi = "a";
-				$zavrsni_radovi_tmp = file_get_contents('php://input');
-				echo "TIP: ".gettype($zavrsni_radovi_tmp)."<br>";
-				$k = json_encode($zavrsni_radovi_tmp);
-				echo json_decode($k);
-				
-				
-					
-			break;
 		}
 
 	}
