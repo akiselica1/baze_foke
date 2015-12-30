@@ -8,7 +8,7 @@ kadrovska.config(function ($routeProvider) {
         .when('/allThesis',
         {
             controller: "thesisCtrl",
-            templateUrl: "partials/zavrsni.html"
+            templateUrl: "partials/zavrsni.php"
         })
         .otherwise({ redirectTo: "/index.php" });
 }).config(function ($httpProvider) {

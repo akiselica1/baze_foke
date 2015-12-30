@@ -23,4 +23,20 @@ kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
     	}
     }
 
+    $scope.potvrdiOdobravanja = function(zavrsniRadovi){
+        var formData = document.getElementById("nvforma");
+        console.log(formData.potvrdi.value);
+        zavrsniRadovi[0].potvrda = formData.potvrdi.value;
+        console.log(zavrsniRadovi);
+        try{
+            thesisService.passThesis(zavrsniRadovi).then(function (results){
+                console.log(results);
+            }, function (error) {
+                console.log(error.data.message);
+            });
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
 });

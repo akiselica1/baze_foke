@@ -11,60 +11,60 @@
 		switch($_GET['action']){
 			case 'pokupi-zavrsne':
 
-				$user_data = $db->query("SELECT credentials.username as username,
-	                                            credentials.password as password,
-	                                            CONCAT(osoba.ime, osoba.prezime) as ime,
-	                                            osoba.id as id
-	                                    FROM credentials, osoba 
-	                                    WHERE credentials.osoba_id=osoba.id")->fetch_assoc();
-				if($user_data){
-					echo "uspjelo";
-				}
-				else{
-					echo mysqli_error($db);
-				}
-
-	            echo $user_data['username'];
-
-				/*$values = array();
+				$values = array();
 				$kveri = $db->query("SELECT zavrsni_rad.id as id, zavrsni_rad.tema as tema, zavrsni_rad.abstract as abstract, 
-											zavrsni_rad.kandidat as kandidat, CONCAT(osoba.ime,	 osoba.prezime) as mentor,
+											zavrsni_rad.kandidat as kandidat, 
+											osoba.ime as ime,	 
+											osoba.prezime as prezime,
 											osoba.id as mentor_id 
 									 FROM zavrsni_rad, osoba WHERE osoba.id=zavrsni_rad.mentor_id");
 
 				foreach($kveri as $zavrsni){
-					$values[] = array("id" 		 => $zavrsni['id'],
-									  "kandidat" => $zavrsni['kandidat'],
-									  "abstract" => $zavrsni['abstract'],
-									  "tema"     => $zavrsni['tema'],
-									  "mentor"   => $zavrsni['mentor'],
-									  "mentor_id"=> $zavrsni['mentor_id']);
-				}*/
-				//$osobe = array("osobe" => $values);
-				//echo json_encode($osobe);
-				//echo json_encode($values);
+					$ime = $zavrsni['ime']." ".$zavrsni['prezime'];
+					$values[] = array("id" 		  => $zavrsni['id'],
+									  "kandidat"  => $zavrsni['kandidat'],
+									  "abstract"  => $zavrsni['abstract'],
+									  "tema"      => $zavrsni['tema'],
+									  "mentor"    => $ime,
+									  "mentor_id" => $zavrsni['mentor_id'],
+									  "potvrda"   => "Odbij");
+				}
+				echo json_encode($values);
 			break;
 
 			case 'promijeni-status-nv':
 				$zr_db = file_get_contents('php://input');
-				
 				$zavrsni_radovi = json_decode($zr_db, true);
-				
 
 				for($i=0; $i<count($zavrsni_radovi); $i++){
 					echo "ID: ".$zavrsni_radovi[$i]['id']."<br>";
 					echo "Kandidat: ".$zavrsni_radovi[$i]['kandidat']."<br>";
 					echo "Mentor: ".$zavrsni_radovi[$i]['mentor']."<br>";
 					echo "Tema: ".$zavrsni_radovi[$i]['tema']."<br>";
+					echo "Status-odobravanja: ".$zavrsni_radovi[$i]['potvrda']."<br>";
 					
-					$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, osoba_id, 
-																			  zavrsni_rad_id, zavrsni_rad_mentor_id)
-												  VALUES(0, ".$zavrsni_radovi[$i]['mentor_id'].", 
-												  			".$zavrsni_radovi[$i]['id'].",
-												  			".$zavrsni_radovi[$i]['mentor_id'].")");
 
-					$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
-														  SET status_nivoa=1");
+					if(isset($_SESSION['username'])){
+						if($_SESSION['titula']=='kadrovska'){
+							$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, osoba_id, 
+																			  zavrsni_rad_id, zavrsni_rad_mentor_id)
+														  VALUES(0, ".$zavrsni_radovi[$i]['mentor_id'].", 
+														  			".$zavrsni_radovi[$i]['id'].",
+														  			".$zavrsni_radovi[$i]['mentor_id'].")");
+
+							$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
+																  SET status_nivoa=1");
+						}
+						else if($_SESSION['titula']=='Docent' || $_SESSION['titula']=='Dekan'){
+							if($zavrsni_radovi[$i]['potvrda']=='Odobri'){
+								//PROVJERA DA LI JE VEC ODOBREN, DA SE NE RADI DUPLA PROVJERA!
+								$update_poveznu = $db->query("UPDATE status_odobren
+															  SET vrijednost=1
+															  WHERE zavrsni_rad_id=".$zavrsni_radovi[$i]['id']."");
+							}
+						}
+					}
+					
 
 					/*if ($insert_poveznu){
 						echo "uspjelo";

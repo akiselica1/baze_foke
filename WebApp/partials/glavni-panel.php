@@ -8,7 +8,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><img id="brand-slicica" src="img/korisnici/id.png" alt="slika"> Nejra A.</a>
+      <a class="navbar-brand" href="#"><img id="brand-slicica" src="img/korisnici/id.png" alt="slika">
+          <?php 
+              if(isset($_SESSION['username'])){
+                  $prvoPrezimena = substr($_SESSION['prezime'], 0, 1);
+                  echo $_SESSION['ime']." ".$prvoPrezimena.".";
+              }
+          ?>
+      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,11 +46,11 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="hidden-xs"><a href="#"><img id="nav-settings" alt="settings" src="img/korisnici/settings.png"></a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodatno <span class="caret"></span></a>
+          <a href="" class="dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dodatno <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Dodatne opcije</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Odjavi se</a></li>
+            <li><a href="logout.php">Odjavi se</a></li>
           </ul>
         </li>
       </ul>

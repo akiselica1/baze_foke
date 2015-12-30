@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <?php
+	session_start();
 	if(!isset($_SESSION['username'])){
-		header ("Location: ../WebApp/login.php");
+		header("location: login.php");
 	}
 ?>
 <html ng-app="kadrovska">
