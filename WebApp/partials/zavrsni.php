@@ -21,7 +21,8 @@
 					<?php 
 						if(isset($_SESSION['username'])){
 							if($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent'){
-								echo "<td><input type='radio' name='potvrdi' value='Odobri'></td>
+								echo "
+									  <td><input type='radio' name='potvrdi' value='Odobri'></td>
 									  <td><input type='radio' name='potvrdi' value='Odbij' checked></td>
 									 ";
 							}
