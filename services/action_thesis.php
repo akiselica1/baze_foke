@@ -11,19 +11,26 @@
 		switch($_GET['action']){
 			case 'pokupi-zavrsne':
 
-				$values = array();
-
 				$kveri = $db->query("SELECT zavrsni_rad.id as id, 
 											zavrsni_rad.tema as tema, 
 											zavrsni_rad.abstract as abstract, 
 											zavrsni_rad.kandidat as kandidat, 
 											osoba.ime as ime,	 
 											osoba.prezime as prezime,
-											osoba.id as mentor_id 
-									 FROM zavrsni_rad, osoba 
-									 WHERE osoba.id=zavrsni_rad.mentor_id");
+											osoba.id as mentor_id,
+											status_odobren.vrijednost as vrijednost 
+									 FROM zavrsni_rad, osoba, status_odobren 
+									 WHERE osoba.id=zavrsni_rad.mentor_id
+									 AND   osoba.id=status_odobren.osoba_id
+									 AND   zavrsni_rad.id=status_odobren.zavrsni_rad_id");
+				
+				$values = array();
 
 				foreach($kveri as $zavrsni){
+					$status_potvrda = $zavrsni['vrijednost'];
+					if($status_potvrda==1) $status="Odobri";
+					else $status="Odbij";
+
 					$ime = $zavrsni['ime']." ".$zavrsni['prezime'];
 					$values[] = array("id" 		  => $zavrsni['id'],
 									  "kandidat"  => $zavrsni['kandidat'],
@@ -31,7 +38,7 @@
 									  "tema"      => $zavrsni['tema'],
 									  "mentor"    => $ime,
 									  "mentor_id" => $zavrsni['mentor_id'],
-									  "potvrda"   => "Odbij");
+									  "potvrda"   => $status);
 				}
 
 				echo json_encode($values);
@@ -47,36 +54,49 @@
 
 					if(isset($_SESSION['username'])){
 						if($_SESSION['titula']=='kadrovska'){
-							$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, 
-																					  osoba_id, 
-																			  		  zavrsni_rad_id, 
-																			  		  zavrsni_rad_mentor_id)
-														  VALUES(0, 
-														  		 ".$zavrsni_radovi[$i]['mentor_id'].", 
-														  		 ".$zavrsni_radovi[$i]['id'].",
-														  		 ".$zavrsni_radovi[$i]['mentor_id'].")");
+							$da_li_postoji = $db->query("SELECT status_nivoa
+														 FROM zavrsni_rad
+														 WHERE id=".$zavrsni_radovi[$i]['id']."")->fetch_assoc();
 
-							$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
-																  SET status_nivoa=1");
+							if($da_li_postoji['status_nivoa']!=1){
+								$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, 
+																						  osoba_id, 
+																				  		  zavrsni_rad_id, 
+																				  		  zavrsni_rad_mentor_id)
+															  VALUES(0, 
+															  		 ".$zavrsni_radovi[$i]['mentor_id'].", 
+															  		 ".$zavrsni_radovi[$i]['id'].",
+															  		 ".$zavrsni_radovi[$i]['mentor_id'].")");
+
+								$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
+																	  SET status_nivoa=1");
+							}
 						}
 						else if($_SESSION['titula']=='Docent' || $_SESSION['titula']=='Dekan'){
 
 							$mentor_id = $zavrsni_radovi[$i]['mentor_id'];
 							$zavrsni_rad_id = $zavrsni_radovi[$i]['id'];
-					
-							if($zavrsni_radovi[$i]['potvrda']=='Odobri'){
-								$vrijednost_kveri = $db->query("SELECT vrijednost as vrijednost
-																FROM   status_odobren
-																WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
-															    AND    osoba_id=".$mentor_id."");
-								$vrijednost="";
-								foreach ($vrijednost_kveri as $data) $vrijednost = $data['vrijednost'];
-								if($vrijednost!=1){
-									$update_poveznu = $db->query("UPDATE status_odobren
-																  SET    vrijednost=1
-																  WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
-																  AND    osoba_id=".$mentor_id."");
-								}
+							
+
+							$vrijednost_kveri = $db->query("SELECT vrijednost as vrijednost
+															FROM   status_odobren
+															WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
+														    AND    osoba_id=      ".$mentor_id."");
+							$vrijednost="";
+							foreach ($vrijednost_kveri as $data) $vrijednost = $data['vrijednost'];
+
+							if($zavrsni_radovi[$i]['potvrda']=='Odobri' && $vrijednost!=1){
+								$update_poveznu = $db->query("UPDATE status_odobren
+															  SET    vrijednost    =1
+															  WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
+															  AND    osoba_id      =".$mentor_id."");
+								
+							}
+							else if($zavrsni_radovi[$i]['potvrda']=='Odbij' && $vrijednost!=0){
+								$update_poveznu = $db->query("UPDATE status_odobren
+															  SET    vrijednost    =0
+															  WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
+															  AND    osoba_id      =".$mentor_id."");
 							}
 						}
 					}

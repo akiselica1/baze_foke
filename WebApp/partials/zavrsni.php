@@ -8,8 +8,16 @@
 					<th>Kandidat </th>
 					<th>Tema </th>
 					<th>Mentor </th>
-					<th>Odobri </th>
-					<th>Odbij </th>
+					<?php
+						if(isset($_SESSION['username'])){
+							if($_SESSION['titula']!='kadrovska'){
+								echo "
+									  <th>Odobri </th>
+									  <th>Odbij </th>
+									 ";
+							}
+						}
+					?>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,8 +30,8 @@
 						if(isset($_SESSION['username'])){
 							if($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent'){
 								echo "
-									  <td><input type='radio' name='potvrdi' value='Odobri'></td>
-									  <td><input type='radio' name='potvrdi' value='Odbij' checked></td>
+									  <td><input type='radio' ng-model='teza.potvrda' name='{{teza.id}}' value='Odobri'></td>
+									  <td><input type='radio' ng-model='teza.potvrda' name='{{teza.id}}' value='Odbij' checked></td>
 									 ";
 							}
 						}

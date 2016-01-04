@@ -5,7 +5,8 @@ kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
     
     thesisService.getThesis().then(function (results) {
         $scope.thesis = results.data;
-        console.log($scope.thesis);
+        //console.log("OVO SU:");
+        //console.log($scope.thesis);
     }, function (error) {
         alert(error.data.message);
     });
@@ -24,10 +25,7 @@ kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
     }
 
     $scope.potvrdiOdobravanja = function(zavrsniRadovi){
-        var formData = document.getElementById("nvforma");
-        console.log(formData.potvrdi.value);
-        zavrsniRadovi[0].potvrda = formData.potvrdi.value;
-        console.log(zavrsniRadovi);
+        
         try{
             thesisService.passThesis(zavrsniRadovi).then(function (results){
                 console.log(results);
@@ -38,5 +36,6 @@ kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
         catch(e){
             console.log(e);
         }
+
     }
 });
