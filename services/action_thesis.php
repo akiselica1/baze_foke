@@ -10,39 +10,93 @@
 	else {
 		switch($_GET['action']){
 			case 'pokupi-zavrsne':
+				$status_odobren_count = $db->query("SELECT count('id') as broj
+												  FROM status_odobren")->fetch_assoc();
+				if($status_odobren_count['broj']!=0){
+					$kveri = $db->query("SELECT zavrsni_rad.id as id, 
+												zavrsni_rad.tema as tema, 
+												zavrsni_rad.abstract as abstract, 
+												zavrsni_rad.kandidat as kandidat, 
+												osoba.ime as ime,	 
+												osoba.prezime as prezime,
+												osoba.id as mentor_id,
+												status_odobren.vrijednost as vrijednost 
+										 FROM zavrsni_rad, osoba, status_odobren 
+										 WHERE osoba.id=zavrsni_rad.mentor_id
+										 AND   osoba.id=status_odobren.osoba_id
+										 AND   zavrsni_rad.id=status_odobren.zavrsni_rad_id");
+				}
+				else{
+					$kveri = $db->query("SELECT zavrsni_rad.id as id, 
+												zavrsni_rad.tema as tema, 
+												zavrsni_rad.abstract as abstract, 
+												zavrsni_rad.kandidat as kandidat, 
+												osoba.ime as ime,	 
+												osoba.prezime as prezime,
+												osoba.id as mentor_id 
+										 FROM zavrsni_rad, osoba
+										 WHERE osoba.id=zavrsni_rad.mentor_id");
+				}
+				/*if ($kveri){
+					echo "uspjelo\r\n";
+				}
+				else {
+					echo "neuspjelo\r\n";
+					echo mysqli_error($db);
+				}*/
 
-				$kveri = $db->query("SELECT zavrsni_rad.id as id, 
-											zavrsni_rad.tema as tema, 
-											zavrsni_rad.abstract as abstract, 
-											zavrsni_rad.kandidat as kandidat, 
-											osoba.ime as ime,	 
-											osoba.prezime as prezime,
-											osoba.id as mentor_id,
-											status_odobren.vrijednost as vrijednost 
-									 FROM zavrsni_rad, osoba, status_odobren 
-									 WHERE osoba.id=zavrsni_rad.mentor_id
-									 AND   osoba.id=status_odobren.osoba_id
-									 AND   zavrsni_rad.id=status_odobren.zavrsni_rad_id");
-				
+
 				$values = array();
-
 				foreach($kveri as $zavrsni){
-					$status_potvrda = $zavrsni['vrijednost'];
-					if($status_potvrda==1) $status="Odobri";
-					else $status="Odbij";
+					$kveri_status_nivoa = $db->query("SELECT status_nivoa 
+													  FROM zavrsni_rad
+													  WHERE id=".$zavrsni['id']."")->fetch_assoc();
+
+					if($kveri_status_nivoa['status_nivoa']==0){
+						$status_nivoa="U kadrovskoj";
+					}
+					else if($kveri_status_nivoa['status_nivoa']==1){
+						$status_nivoa="Na NV-u";
+					}
+					else if($kveri_status_nivoa['status_nivoa']==2){
+						$status_nivoa="Na NNV-u";
+					}
+					if($status_odobren_count['broj']!=0){
+						$status_potvrda = $zavrsni['vrijednost'];
+						if($status_potvrda==1) $status="Odobri";
+						else $status="Odbij";
+					}
 
 					$ime = $zavrsni['ime']." ".$zavrsni['prezime'];
-					$values[] = array("id" 		  => $zavrsni['id'],
-									  "kandidat"  => $zavrsni['kandidat'],
-									  "abstract"  => $zavrsni['abstract'],
-									  "tema"      => $zavrsni['tema'],
-									  "mentor"    => $ime,
-									  "mentor_id" => $zavrsni['mentor_id'],
-									  "potvrda"   => $status);
+					if($status_odobren_count['broj']!=0 && 
+					   ($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent') &&
+					   	$kveri_status_nivoa['status_nivoa']==0){
+						$values[] = array("id" 		    => $zavrsni['id'],
+										  "kandidat"    => $zavrsni['kandidat'],
+										  "abstract"    => $zavrsni['abstract'],
+										  "tema"        => $zavrsni['tema'],
+										  "mentor"      => $ime,
+										  "mentor_id"   => $zavrsni['mentor_id'],
+										  "potvrda"     => $status,
+										  "status_nivo" => $status_nivoa);
+					}
+					else if($status_odobren_count['broj']==0 &&
+						($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent') &&
+						$kveri_status_nivoa['status_nivoa']==0){
+						
+					}
+					else{
+						$values[] = array("id" 		    => $zavrsni['id'],
+										  "kandidat"    => $zavrsni['kandidat'],
+										  "abstract"    => $zavrsni['abstract'],
+										  "tema"        => $zavrsni['tema'],
+										  "mentor"      => $ime,
+										  "mentor_id"   => $zavrsni['mentor_id'],
+										  "potvrda"     => "Odbij",
+										  "status_nivo" => $status_nivoa);
+					}
 				}
-
 				echo json_encode($values);
-
 			break;
 
 			case 'promijeni-status-nv':
@@ -58,7 +112,7 @@
 														 FROM zavrsni_rad
 														 WHERE id=".$zavrsni_radovi[$i]['id']."")->fetch_assoc();
 
-							if($da_li_postoji['status_nivoa']!=1){
+							if($da_li_postoji['status_nivoa']==0){
 								$insert_poveznu = $db->query("INSERT INTO status_odobren (vrijednost, 
 																						  osoba_id, 
 																				  		  zavrsni_rad_id, 
@@ -69,7 +123,9 @@
 															  		 ".$zavrsni_radovi[$i]['mentor_id'].")");
 
 								$update_status_zavrsnog = $db->query("UPDATE zavrsni_rad 
-																	  SET status_nivoa=1");
+																	  SET status_nivoa=1
+																	  WHERE id=".$zavrsni_radovi[$i]['id']."");
+								
 							}
 						}
 						else if($_SESSION['titula']=='Docent' || $_SESSION['titula']=='Dekan'){
@@ -103,7 +159,6 @@
 					
 					/*if ($insert_poveznu){
 						echo "uspjelo";
-
 					}
 					else {
 						echo "neuspjelo\r\n";

@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+	session_start(); 
+?>
 <div> 
 	<form id="nvforma" class="formica">
 		<table class="table">
@@ -15,6 +17,9 @@
 									  <th>Odobri </th>
 									  <th>Odbij </th>
 									 ";
+							}
+							else{
+								echo "<th>Status nivoa dokumenta</th>";
 							}
 						}
 					?>
@@ -33,6 +38,9 @@
 									  <td><input type='radio' ng-model='teza.potvrda' name='{{teza.id}}' value='Odobri'></td>
 									  <td><input type='radio' ng-model='teza.potvrda' name='{{teza.id}}' value='Odbij' checked></td>
 									 ";
+							}
+							if($_SESSION['titula']=='kadrovska'){
+								echo "<td ng-model='teza'>{{teza.status_nivo}}</td>";
 							}
 						}
 					?>

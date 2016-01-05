@@ -5,8 +5,7 @@ kadrovska.controller('thesisCtrl', function ($scope, thesisService) {
     
     thesisService.getThesis().then(function (results) {
         $scope.thesis = results.data;
-        //console.log("OVO SU:");
-        //console.log($scope.thesis);
+        console.log($scope.thesis);
     }, function (error) {
         alert(error.data.message);
     });
