@@ -69,7 +69,8 @@
 
 					$ime = $zavrsni['ime']." ".$zavrsni['prezime'];
 					if($status_odobren_count['broj']!=0 && 
-					   ($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent') &&
+					   ($_SESSION['titula']=='Red. prof. dr.' || $_SESSION['titula']=='Vanr. prof. dr.'
+					    || $_SESSION['titula']=='Doc. dr.' || $_SESSION['titula']=='Asistent') &&
 					   	$kveri_status_nivoa['status_nivoa']==0){
 						$values[] = array("id" 		    => $zavrsni['id'],
 										  "kandidat"    => $zavrsni['kandidat'],
@@ -81,7 +82,8 @@
 										  "status_nivo" => $status_nivoa);
 					}
 					else if($status_odobren_count['broj']==0 &&
-						($_SESSION['titula']=='Dekan' || $_SESSION['titula']=='Docent') &&
+						($_SESSION['titula']=='Red. prof. dr.' || $_SESSION['titula']=='Vanr. prof. dr.'
+					     || $_SESSION['titula']=='Doc. dr.' || $_SESSION['titula']=='Asistent') &&
 						$kveri_status_nivoa['status_nivoa']==0){
 						
 					}
@@ -128,7 +130,8 @@
 								
 							}
 						}
-						else if($_SESSION['titula']=='Docent' || $_SESSION['titula']=='Dekan'){
+						else if($_SESSION['titula']=='Red. prof. dr.' || $_SESSION['titula']=='Vanr. prof. dr.'
+								|| $_SESSION['titula']=='Doc. dr.' || $_SESSION['titula']=='Asistent'){
 
 							$mentor_id = $zavrsni_radovi[$i]['mentor_id'];
 							$zavrsni_rad_id = $zavrsni_radovi[$i]['id'];
@@ -137,7 +140,7 @@
 							$vrijednost_kveri = $db->query("SELECT vrijednost as vrijednost
 															FROM   status_odobren
 															WHERE  zavrsni_rad_id=".$zavrsni_rad_id."
-														    AND    osoba_id=      ".$mentor_id."");
+														    AND    osoba_idd	 =".$mentor_id."");
 							$vrijednost="";
 							foreach ($vrijednost_kveri as $data) $vrijednost = $data['vrijednost'];
 
@@ -156,7 +159,12 @@
 							}
 						}
 					}
-					
+					//count raje sa vijeca odsjeka... ako je pola odobrilo ODREDJENI RAD on prelazi u status nivao 2
+
+					$broj_osoba_nv = $db->query("SELECT count(id) ")
+
+
+
 					//PROVJERI DA LI JE VISE OD 50% GLASALO DA ZA TAJ RAD, AKO JESTE MIJENJAJ MU STATUS
 
 					//NAPRAVITI POSEBNE TABELE NV i NNV, KOJE CE IMATI PRIMARNI KLJUC ID I 
